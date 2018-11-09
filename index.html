@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-status="index">
+    <canvas id="game"></canvas>
+    <div class="ui-index">
+        <h1>飞机大作战</h1>
+        <div class="btn-group">
+            <button class="js-start btn">开始游戏</button>
+            <button class="js-setting btn">游戏设置</button>
+            <button class="js-rule btn">游戏说明</button>
+        </div>
+    </div>
+    <div class="ui-rule ui-panel">
+        <h2>游戏说明</h2>
+        <p>通过手指移动飞机，躲避敌人，通过子弹射击敌人得分，游戏无限时。消灭小型飞机得分100分，消灭大型飞机得分1000分。</p>
+        <button class="js-confirm-rule">我知道了</button>
+    </div>
+    <div class="ui-setting ui-panel">
+        <h2>游戏说明</h2>
+        <ul class="setting-group">
+            <li class="setting">
+                <span>音乐设置</span>
+                <select>
+                    <option value="0">开启音乐</option>
+                    <option value="1">关闭音乐</option>
+                </select>
+            </li>
+            <li class="setting">
+                <span>背景设置</span>
+                <select>
+                    <option value="0">夜色战场</option>
+                    <option value="1">天上宫阙</option>
+                    <option value="2">原始森林</option>
+                    <option value="3">火山战场</option>
+                </select>
+            </li>
+            <li class="setting">
+                <span>战机设置</span>
+                <select>
+                    <option value="0">蓝色战机</option>
+                    <option value="1">粉色战机</option>
+                </select>
+            </li>
+        </ul>
+        <button class="js-confirm-setting">确认设置</button>
+    </div>
+    <!-- 页面js -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/element.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
