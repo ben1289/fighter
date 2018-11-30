@@ -3,22 +3,22 @@
  * @type {Object}
  */
 var CONFIG = {
-    planeSize: {
+    planeSize: {//飞机大小
         width: 60,
         height: 45
     },
-    planeType: 'bluePlaneIcon',//默认是蓝色
-    bulletSize: {
+    planeType: 'bluePlaneIcon',//飞机类型默认是蓝色战机
+    bulletSize: {//子弹大小
         width: 20,
         height: 20
     },
     enemySpeed: 4,//默认敌人移动距离
     enemyMaxNum: 5,//敌人最大数量
-    enemySmallSize: {
+    enemySmallSize: {//小敌机尺寸
         width: 54,
         heigth: 40
     },
-    enemyBigSize: {
+    enemyBigSize: {//大敌机尺寸
         width: 130,
         heigth: 100
     },
@@ -52,6 +52,24 @@ var CONFIG = {
             {
                 src: './img/boom_small.png',
                 name: 'enemySmallBoomIcon'
+            }
+        ],
+        bg_images: [
+            {
+                src: './img/bg_1.jpg',
+                name: 'bg1'
+            },
+            {
+                src: './img/bg_2.jpg',
+                name: 'bg2'
+            },
+            {
+                src: './img/bg_3.jpg',
+                name: 'bg3'
+            },
+            {
+                src: './img/bg_4.jpg',
+                name: 'bg4'
             }
         ]
     }

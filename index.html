@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
+    <link rel="stylesheet" href="css/amazeui.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-status="index">
+    <audio id="bg_music" autoplay="autoplay" loop="loop" src="./sound/menu_music.mp3"></audio>
+    <audio id="temp_music" autoplay="autoplay"></audio>
     <canvas id="game"></canvas>
     <div class="ui-index">
         <h1>飞机大作战</h1>
@@ -23,27 +26,27 @@
         <button class="js-confirm-rule">我知道了</button>
     </div>
     <div class="ui-setting ui-panel">
-        <h2>游戏说明</h2>
+        <h2>游戏设置</h2>
         <ul class="setting-group">
             <li class="setting">
                 <span>音乐设置</span>
-                <select>
+                <select data-am-selected="{btnStyle: 'primary'}" id="music" onchange="click_btn()">
                     <option value="0">开启音乐</option>
                     <option value="1">关闭音乐</option>
                 </select>
             </li>
             <li class="setting">
                 <span>背景设置</span>
-                <select>
-                    <option value="0">夜色战场</option>
-                    <option value="1">天上宫阙</option>
-                    <option value="2">原始森林</option>
-                    <option value="3">火山战场</option>
+                <select data-am-selected="{btnStyle: 'primary'}" id="background" onchange="click_btn()">
+                    <option value="bg1">夜色战场</option>
+                    <option value="bg2">天上宫阙</option>
+                    <option value="bg3">原始森林</option>
+                    <option value="bg4">火山战场</option>
                 </select>
             </li>
             <li class="setting">
                 <span>战机设置</span>
-                <select>
+                <select data-am-selected="{btnStyle: 'primary'}" id="plane" onchange="click_btn()">
                     <option value="0">蓝色战机</option>
                     <option value="1">粉色战机</option>
                 </select>
@@ -52,9 +55,16 @@
         <button class="js-confirm-setting">确认设置</button>
     </div>
     <!-- 页面js -->
-    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/config.js"></script>
     <script src="js/element.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/amazeui.min.js"></script>
+    <script src="js/enemy.js"></script>
+    <script>
+        window.onbeforeunload = function() { 
+    　　    return "确定退出游戏吗？"; 
+        }
+    </script>
 </body>
 </html>

@@ -1,11 +1,21 @@
+* {/*禁用长按选中文字或控件*/
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    outline: none;/*去掉黄色框*/
+    /* -webkit-tap-highlight-color: rgba(255, 255, 255, 0); */
+}
 html, body{
     height: 100%;
+    overflow: hidden;/*溢出则隐藏；注意：需要写在“html, body”里面，只写在body里会导致实测时仍然可以滚动*/
 }
 body{
     color: #fff;
     background-image: url("../img/bg_1.jpg");
-    background-size: cover;
-    overflow: hidden;/*溢出则隐藏*/
+    background-size: cover; 
 }
 .ui-index{
     position: absolute;
@@ -46,10 +56,12 @@ body{
     border: 1px solid #fff;
     background: none;
     font-size: 18px;
+    border-radius: 3px;
 }
 .setting-group{
     list-style: none;
     padding: 0;
+    width: auto;
 }
 .setting-group .setting{
     margin-bottom: 10px;
