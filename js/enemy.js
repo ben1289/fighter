@@ -12,9 +12,9 @@ var Enemy = function (opts) {
     this.live = opts.live;
     this.type = opts.type;
     // 特有属性，爆炸相关
-    // this.boomIcon = opts.boomIcon;
-    // this.boomCount = 0;
-};
+    this.boomIcon = opts.boomIcon;
+    this.boomCount = 0;
+}
 // 继承Element的方法
 Enemy.prototype = new Element();
 
@@ -23,19 +23,31 @@ Enemy.prototype = new Element();
  */
 Enemy.prototype.down = function() {
     this.move(0, this.speed);
-};
+}
+
+/**
+ * 方法：booming 爆炸中
+ */
+Enemy.prototype.booming = function() {
+    // 设置状态为 booming
+    this.status = 'booming';
+    this.boomCount += 1;
+    // 如果已经 booming 了6次，则设置状态为 boomed (也就是6帧，一帧是 1000/60 ms)
+    if(this.boomCount > 6){
+        this.status = 'boomed';
+    }
+}
 
 // 方法：draw 方法
 Enemy.prototype.draw = function() {
-    context.fillRect(this.x, this.y, this.width, this.height);
+    // context.fillRect(this.x, this.y, this.width, this.height);
     //绘制敌机
-    /*switch(this.status) {
+    switch(this.status) {
         case 'normal':
             context.drawImage(this.icon, this.x, this.y, this.width, this.height);
-            //context.fillRect(this.x, this.y, this.width, this.height);
             break;
         case 'booming':
             context.drawImage(this.boomIcon, this.x, this.y, this.width, this.height);
             break;
-    }*/
+    }
 }

@@ -75,7 +75,8 @@ body{
 /*ui默认是隐藏*/
 .ui-index,
 .ui-rule,
-.ui-setting{
+.ui-setting,
+.ui-over{
     display: none;
 }
 /*游戏状态切换场景*/
@@ -86,5 +87,8 @@ body{
     display: block;
 }
 [data-status="rule"] .ui-rule{
+    display: block;
+}
+[data-status="over"] .ui-over{
     display: block;
 }

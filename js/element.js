@@ -18,8 +18,8 @@ Element.prototype = {
     move: function(x, y){
         var addX = x || 0;
         var addY = y || 0;
-        this.x +=x;
-        this.y +=y;
+        this.x += x;
+        this.y += y;
     },
     /**
      * 理解面向对象的概念
