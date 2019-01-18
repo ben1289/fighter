@@ -15,7 +15,7 @@ html, body{
 body{
     color: #fff;
     background-image: url("../img/bg_1.jpg");
-    background-size: cover; 
+    background-size: cover;
 }
 .ui-index{
     position: absolute;

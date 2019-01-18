@@ -9,11 +9,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-status="index">
-    <audio id="bg_music" autoplay="autoplay" loop="loop" src="./sound/menu_music.mp3" preload="auto"></audio>
-    <audio id="btn_music" src="./sound/button.mp3" preload="auto"></audio>
-    <audio id="biu_music" src="./sound/biubiubiu.mp3" preload="auto"></audio>
-    <audio id="boom_music" src="./sound/boom.mp3" preload="auto"></audio>
-    <audio id="die_music" src="./sound/die.mp3" preload="auto"></audio>
+    <audio id="bg_music" class="bg_audio" autoplay="autoplay" loop="loop" src="./sound/menu_music.mp3" preload="auto"></audio>
+    <audio id="biu_music" class="bg_audio" loop="loop" src="./sound/biubiubiu.mp3" preload="auto"></audio>
     <canvas id="game"></canvas>
     <div class="ui-index">
         <h1>飞机大作战</h1>
@@ -25,7 +22,7 @@
     </div>
     <div class="ui-rule ui-panel">
         <h2>游戏说明</h2>
-        <p>通过手指移动飞机，躲避敌人，通过子弹射击敌人得分，游戏无限时。消灭小型飞机得分100分，消灭大型飞机得分1000分。</p>
+        <p>通过手指移动飞机，躲避敌人，射击子弹消灭敌人得分，游戏无限时。小型敌机100分，中型敌机500分，大型敌机1000分，未消灭敌机扣除相应分数。</p>
         <button class="js-confirm-rule">我知道了</button>
     </div>
     <div class="ui-setting ui-panel">
@@ -41,17 +38,20 @@
             <li class="setting">
                 <span>背景设置</span>
                 <select data-am-selected="{btnStyle: 'primary'}" id="background" onchange="set_bg()">
-                    <option value="bg1" selected>夜色战场</option>
+                    <option value="bg1" selected>寂静夜色</option>
                     <option value="bg2">天上宫阙</option>
                     <option value="bg3">原始森林</option>
-                    <option value="bg4">火山战场</option>
+                    <option value="bg4">炙热火山</option>
+                    <option value="bg5">荒芜沙漠</option>
                 </select>
             </li>
             <li class="setting">
                 <span>战机设置</span>
-                <select data-am-selected="{btnStyle: 'primary'}" id="plane" onchange="click_btn()">
+                <select data-am-selected="{btnStyle: 'primary'}" id="plane" onchange="set_plane()">
                     <option value="0" selected>蓝色战机</option>
                     <option value="1">粉色战机</option>
+                    <option value="2">黄色战机</option>
+                    <option value="3">橙色战机</option>
                 </select>
             </li>
         </ul>
@@ -60,7 +60,7 @@
     <div class="ui-over ui-panel">
         <h2>游戏结束</h2>
         <p id="score"></p>
-        <button class="js-confirm-rule">返回大厅</button>
+        <button class="js-confirm-back">返回大厅</button>
         <button class="js-start btn">重新开始</button>
     </div>
     <!-- 页面js -->
@@ -73,18 +73,15 @@
     <script src="js/plane.js"></script>
     <script src="js/amazeui.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/mui.min.js"></script>
     <script>
-        // var audio = document.createElement("audio");
-        // audio.id = "btn_music";
-        // audio.src = "./sound/button.mp3";
-        // audio.addEventListener("canplaythrough",function(){},false);
         document.addEventListener('plusready', function(a) {
             var first = null;
             plus.key.addEventListener('backbutton', function() {
                 //首次按键，提示‘再按一次退出应用’
                 if (!first) {
                     first = new Date().getTime();
-                    console.log('再按一次退出应用');//用自定义toast提示最好
+                    mui.toast('再按一次退出应用', { duration:'short', type:'div' });
                     setTimeout(function() {
                         first = null;
                     }, 1000);

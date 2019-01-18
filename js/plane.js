@@ -16,6 +16,10 @@ var Plane = function (opts) {
     this.bulletSize = opts.bulletSize;
     this.bulletSpeed = opts.bulletSpeed;
     this.bulletIcon = opts.bulletIcon;
+    this.effectIcon = opts.effectIcon;// 命中的特效
+    this.effect = false;// 是否命中
+    this.effectCount = 0;
+    this.effectTarget;// 子弹对象
     // this.shootSound = opts.shootSound;
     // 特有属性，爆炸相关
     this.boomIcon = opts.boomIcon;
@@ -32,10 +36,17 @@ Plane.prototype = new Element();
 Plane.prototype.hasCrash = function(target) {
     var crash = false;
     // 判断四边是否产生碰撞
+    // var dx = this.x - target.x;
+    // var dy = this.y - target.y;
+    // var distance = Math.sqrt((dx * dx) * (dy * dy));
+    // if (distance < (this.height + target.height) / 2) {
+    //     // 两个圆形碰撞了
+    //     crash = true;
+    // }
     if(!(this.x + this.width < target.x) && 
     !(target.x + target.width < this.x) && 
-    !(this.y + this.height < target.y) && 
-    !(target.y + target.height < this.y)) {
+    !(this.y + this.height < target.y + 20) && 
+    !(target.y + target.height < this.y + 20)) {
         // 物体碰撞了
         crash = true;
     }
@@ -52,6 +63,8 @@ Plane.prototype.hasHit = function(target) {
     for(var j = bullets.length - 1; j >= 0; j--){
         // 如果子弹击中的是目标对象范围，则销毁子弹
         if(bullets[j].hasCrash(target)){
+            this.effect = true;
+            this.effectTarget = bullets[j];
             // 清除子弹实例
             this.bullets.splice(j, 1);
             hasHit = true;
@@ -75,23 +88,21 @@ Plane.prototype.setPosition = function(newPlaneX, newPlaneY) {
  */
 Plane.prototype.startShoot = function() {
     var self = this;
-    var bulletWidth = this.bulletSize.width;
-    var bulletHeight = this.bulletSize.height;
     // 定时发射子弹
     this.shootingInterval = setInterval(function() {
         // 创建子弹，子弹位置是居中射出
-        var bulletX = self.x + self.width / 2 - bulletWidth / 2;
-        var bulletY = self.y - bulletHeight;
+        var bulletX = self.x + self.width / 2 - self.bulletSize.width / 2;
+        var bulletY = self.y - self.bulletSize.height;
         // 创建子弹
         self.bullets.push(new Bullet({
             x: bulletX,
             y: bulletY,
-            width: bulletWidth,
-            height: bulletHeight,
+            width: self.bulletSize.width,
+            height: self.bulletSize.height,
             speed: self.bulletSpeed,
             icon: self.bulletIcon,
         }));
-    }, 200);
+    }, 150);
 };
 
 // 方法：drawBullets 画子弹
@@ -126,8 +137,33 @@ Plane.prototype.booming = function() {
     return this;
 }
 
+/**
+ * 方法：绘制命中效果
+ */
+Plane.prototype.drawEffectIcon = function(effectIconWidth, effectIconHeight) {
+    if(this.effect) {
+        this.effectCount += 1;
+        if(this.effectCount <= 6) {
+            context.drawImage(this.effectIcon, this.effectTarget.x - effectIconWidth / 2 + this.effectTarget.width / 2, this.effectTarget.y - 25, effectIconWidth, effectIconHeight);
+        } else {
+            this.effectCount = 0;
+            this.effect = false;
+        }
+    }
+}
+
+/**
+ * 方法：绘制当前分数
+ */
+Plane.prototype.drawScore = function(score, width, height) {
+    context.font = '13px arial';
+    context.textAlign = 'left';
+    context.fillStyle = '#FFFFFF';
+    context.fillText("当前分数：" + score, width * 0.05, height * 0.04);
+}
+
 // 方法：draw 方法
-Plane.prototype.draw = function() {
+Plane.prototype.draw = function(effectIconWidth, effectIconHeight) {
     // 绘制飞机
     switch(this.status) {
         case 'booming':
@@ -137,6 +173,7 @@ Plane.prototype.draw = function() {
             context.drawImage(this.icon, this.x, this.y, this.width, this.height);
             break;
     }
+    this.drawEffectIcon(effectIconWidth, effectIconHeight);
     // 绘制子弹
     this.drawBullets();
     return this;

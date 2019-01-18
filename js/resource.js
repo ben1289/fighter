@@ -25,7 +25,7 @@ var resourceHelper = {
      */
     load: function(resources, callback) {
         var images = resources.images;
-        var sounds = resources.sounds;
+        // var sounds = resources.sounds;
         var total = images.length;
         var finish = 0; // 已完成的个数
         // 保存加载后的图片对象和声音对象

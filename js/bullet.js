@@ -25,11 +25,18 @@ Bullet.prototype.fly = function() {
 Bullet.prototype.hasCrash = function(target) {
     var crash = false;
     // 判断四边是否产生碰撞
+    // var dx = this.x - target.x;
+    // var dy = this.y - target.y;
+    // var distance = Math.sqrt((dx * dx) * (dy * dy));
+    // if (distance < (this.height + target.height) / 2) {
+    //     // 两个圆形碰撞了
+    //     crash = true;
+    // }
     if(!(this.x + this.width < target.x) && 
     !(target.x + target.width < this.x) && 
     !(this.y + this.height < target.y) && 
     !(target.y + target.height < this.y)) {
-        // 物体碰撞了
+        // 两个矩形碰撞了
         crash = true;
     }
     return crash;
@@ -39,5 +46,7 @@ Bullet.prototype.hasCrash = function(target) {
 Bullet.prototype.draw = function() {
     // 绘画弹道
     context.drawImage(this.icon, this.x, this.y, this.width, this.height);
+    // context.drawImage(this.icon, this.x + 8, this.y, this.width, this.height);
+    // context.drawImage(this.icon, this.x - 8, this.y, this.width, this.height);
     return this;
 };

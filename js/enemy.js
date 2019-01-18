@@ -10,7 +10,7 @@ var Enemy = function (opts) {
     this.status = 'normal'; //可为 normal、booming、boomed
     this.icon = opts.icon;
     this.live = opts.live;
-    this.type = opts.type;
+    this.enemyType = opts.enemyType;
     // 特有属性，爆炸相关
     this.boomIcon = opts.boomIcon;
     this.boomCount = 0;
