@@ -33,7 +33,9 @@ var enemy_max_num = new Array(0, 4, 8, 12);
 // 敌机产出速度： 0 一级  1 二级  2 三级  3 四级
 var create_enemy_speed = [ [400, 1300, 4200], [350, 1050, 4200],[300, 720, 3600],[250, 625, 3750] ];
 // 敌机移动速度： 0 一级  1 二级  2 三级  3 四级
-var enemy_speed = [ [0.5, 0.25, 0.1], [0.6, 0.5, 0.4], [0.8, 0.65, 0.5], [1, 0.8, 0.7] ];
+var enemy_speed = [ [0.5, 0.25, 0.1], [0.6, 0.45, 0.3], [0.7, 0.65, 0.5], [0.8, 0.7, 0.6] ];
+// 背景移动速度： 0 一级  1 二级  2 三级  3 四级
+var bg_speed = new Array(0.4, 0.6, 0.8, 1);
 
 // 画布相关
 var $canvas = $('#game');
@@ -107,6 +109,9 @@ function bindEvent() {
     // 点击确认设置按钮
     $body.on('click','.js-confirm-setting',function(){
         $body.attr('data-status','index');
+        localStorage.setItem("music", isMusic);
+        localStorage.setItem("background", $("#background option:selected").val());
+        localStorage.setItem("plane", planeType);
     });
 
     // 后台静音
@@ -148,8 +153,8 @@ function click_btn() {
 // 设置音乐开关
 function set_music() {
     click_btn();
-    var music = $("#music option:selected").val();
-    var audio = $("#bg_music")[0];// [0]是返回DOM对象，注意jQuery返回的是jQuery对象，document.getElementById返回的才是DOM对象。
+    let music = $("#music option:selected").val();
+    let audio = $("#bg_music")[0];// [0]是返回DOM对象，注意jQuery返回的是jQuery对象，document.getElementById返回的才是DOM对象。
     if(music == 0)//  0是开  1是关
     {
         audio.play();
@@ -164,14 +169,8 @@ function set_music() {
 // 设置背景更换
 function set_bg() {
     click_btn();
-    var background = $("#background option:selected").val();
-    var arr = CONFIG.resources.bg_images;
-    $.each(arr,function(i,val)
-    {
-        if(val.name == background) {
-            $body.css("background-image","url("+val.src+")");
-        }
-    });
+    let background = $("#background option:selected").val();
+    $body.css("background-image","url(" + resourceHelper.getImage(background).src + ")");
 }
 
 // 设置飞机更换
@@ -285,7 +284,7 @@ var GAME = {
     /**
      * 方法： 升级
      */
-    levelUp: function(self) {
+    levelUp: function() {
         if(level != level_bak) {
             this.plane.icon = resourceHelper.getImage(mainPalne[planeType][level]);
             this.plane.bulletIcon = resourceHelper.getImage(bullet_icon[level]);
@@ -302,7 +301,7 @@ var GAME = {
         // var opts = this.opts;
         // 根据分数来升级
         level = score >= 10000 ? score >= 20000 ? score >= 30000 ? 3 : 2 : 1 : 0;
-        this.levelUp(up);
+        this.levelUp();
         gameTime++;
         // 更新飞机、敌人
         this.updateElement();
@@ -342,6 +341,8 @@ var GAME = {
                 // 判断飞机状态
                 if(plane.status === 'normal') {
                     if(plane.hasCrash(enemy)) {
+                        $canvas.off('touchstart');//TODO: off是解绑，可特么吃大亏了。。。。
+                        $canvas.off('touchmove');
                         plane.booming();
                         isDie = true;
                         $("#biu_music")[0].pause();
@@ -415,7 +416,7 @@ var GAME = {
         });
         // 滑动屏幕
         $canvas.on('touchmove', function(e) {
-            if(startTouchX != null) {
+            if(startTouchX != null && startPlaneY != null) {
                 var newTouchX = e.touches[0].clientX;
                 var newTouchY = e.touches[0].clientY;
                 // 新的飞机坐标等于手指滑动的距离加上飞机初始位置
@@ -482,10 +483,10 @@ var GAME = {
     },
     end: function() {
         this.clearEnemyInterVal();
-        $canvas.off('touchstart');//TODO: off是解绑，可特么吃大亏了。。。。
-        $canvas.off('touchmove');
         if(isDie) {
-            $("#score").html("您已阵亡 ! 存活时间 : " + Math.floor(gameTime / 60) + "秒<br/>本次得分 : " + score);
+            let dps = score / Math.floor(gameTime / 60);
+            let evaluate = dps >= 200 ? dps >= 250 ? dps >= 300 ? dps >= 350 ? dps >= 400 ? "SSS" : "SS" : "S" : "A" : "D" : "F";
+            $("#score").html("您已阵亡 ! 存活时间 : " + Math.floor(gameTime / 60) + "秒<br/>本次得分 : " + score + "分<br/>评价 : " + evaluate);
             $body.attr('data-status','over');
             isDie = false;
         } else {
@@ -512,13 +513,41 @@ var GAME = {
 // 循环背景
 var current = 0;
 function scrollBg(){
-    current += 0.3;
+    current += bg_speed[level];
     if (current == window.innerHeight){
         current = 0;
     }
     $body.css("background-position-y",current);
+    requestAnimationFrame(function() {
+        scrollBg();
+    });
 }
-var scrollBgInterval = setInterval("scrollBg()", 1000 / 60);
+
+function getSetting() {
+    if(typeof(Storage)!=="undefined")
+    {
+        let music = localStorage.getItem("music");
+        let background = localStorage.getItem("background");
+        let plane = localStorage.getItem("plane");
+        if(music != "" && music != null) {
+            isMusic = music;
+            $('#music').find('option').eq(music == "true" ? 0 : 1).attr('selected', true);
+        }
+        if(background != "" && background != null) {
+            $body.css("background-image","url(" + resourceHelper.getImage(background).src + ")");
+            $('#background').find('option').eq(background.substr(-1)-1).attr('selected', true);
+        } else {
+            $body.css("background-image","url(" + resourceHelper.getImage('bg1').src + ")");
+        }
+        if(plane != "" && plane != null) {
+            planeType = plane;
+            $('#plane').find('option').eq(plane).attr('selected', true);
+        }
+        $('select').trigger('changed.selected.amui');
+    } else {
+        $body.css("background-image","url(" + resourceHelper.getImage('bg1').src + ")");
+    }
+}
 
 /**
  * 页面主入口
@@ -527,8 +556,10 @@ function init(){
     // 加载图片资源，加载完成才能交互
     resourceHelper.load(CONFIG.resources, function(images){
         // 加载完成
+        getSetting();
         GAME.init();
         bindEvent();
+        scrollBg();
     });
 }
 

@@ -48,5 +48,5 @@ var resourceHelper = {
                 }
             });
         }
-    }  
+    }
 }

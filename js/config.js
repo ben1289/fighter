@@ -221,28 +221,6 @@ var CONFIG = {
                 src: './img/home_btn.png',
                 name: 'home_btn'
             }
-        ],
-        bg_images: [
-            {
-                src: './img/bg_1.jpg',
-                name: 'bg1'
-            },
-            {
-                src: './img/bg_2.jpg',
-                name: 'bg2'
-            },
-            {
-                src: './img/bg_3.jpg',
-                name: 'bg3'
-            },
-            {
-                src: './img/bg_4.jpg',
-                name: 'bg4'
-            },
-            {
-                src: './img/bg_5.jpg',
-                name: 'bg5'
-            }
         ]
     }
 };

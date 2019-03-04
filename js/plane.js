@@ -102,7 +102,7 @@ Plane.prototype.startShoot = function() {
             speed: self.bulletSpeed,
             icon: self.bulletIcon,
         }));
-    }, 150);
+    }, 135);//原来150
 };
 
 // 方法：drawBullets 画子弹

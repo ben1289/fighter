@@ -20,25 +20,20 @@
             <button class="js-rule btn">游戏说明</button>
         </div>
     </div>
-    <div class="ui-rule ui-panel">
-        <h2>游戏说明</h2>
-        <p>通过手指移动飞机，躲避敌人，射击子弹消灭敌人得分，游戏无限时。小型敌机100分，中型敌机500分，大型敌机1000分，未消灭敌机扣除相应分数。</p>
-        <button class="js-confirm-rule">我知道了</button>
-    </div>
     <div class="ui-setting ui-panel">
         <h2>游戏设置</h2>
         <ul class="setting-group">
             <li class="setting">
                 <span>音乐设置</span>
                 <select data-am-selected="{btnStyle: 'primary'}" id="music" onchange="set_music()">
-                    <option value="0" selected>开启音乐</option>
+                    <option value="0">开启音乐</option>
                     <option value="1">关闭音乐</option>
                 </select>
             </li>
             <li class="setting">
                 <span>背景设置</span>
                 <select data-am-selected="{btnStyle: 'primary'}" id="background" onchange="set_bg()">
-                    <option value="bg1" selected>寂静夜色</option>
+                    <option value="bg1">寂静夜色</option>
                     <option value="bg2">天上宫阙</option>
                     <option value="bg3">原始森林</option>
                     <option value="bg4">炙热火山</option>
@@ -48,7 +43,7 @@
             <li class="setting">
                 <span>战机设置</span>
                 <select data-am-selected="{btnStyle: 'primary'}" id="plane" onchange="set_plane()">
-                    <option value="0" selected>蓝色战机</option>
+                    <option value="0">蓝色战机</option>
                     <option value="1">粉色战机</option>
                     <option value="2">黄色战机</option>
                     <option value="3">橙色战机</option>
@@ -57,11 +52,16 @@
         </ul>
         <button class="js-confirm-setting">确认设置</button>
     </div>
+    <div class="ui-rule ui-panel">
+        <h2>游戏说明</h2>
+        <p>通过手指移动飞机，躲避敌人，射击子弹消灭敌人得分，游戏无限时。小型敌机100分，中型敌机500分，大型敌机1000分，未消灭敌机扣除相应分数。</p>
+        <button class="js-confirm-rule">我知道了</button>
+    </div>
     <div class="ui-over ui-panel">
         <h2>游戏结束</h2>
         <p id="score"></p>
-        <button class="js-confirm-back">返回大厅</button>
-        <button class="js-start btn">重新开始</button>
+        <button class="js-confirm-back" style="margin-right: 7px;">返回大厅</button>
+        <button class="js-start btn" style="margin-left: 7px;">重新开始</button>
     </div>
     <!-- 页面js -->
     <script src="js/jquery-3.3.1.min.js"></script>
